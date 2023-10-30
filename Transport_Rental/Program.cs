@@ -45,7 +45,7 @@ namespace TransportRental
                 }
                 else
                 {
-                    Console.WriteLine("This type of transport was not found.");
+                    Console.WriteLine("This type of transport wasn't found.");
                 }
             }
         }
