@@ -10,13 +10,21 @@ namespace TransportRental
         {
             List<Transport> lst = new List<Transport>();
 
-            lst.Add(new Boat("Boat5356", "Blue", 50, "Category 1"));
-            lst.Add(new Car("CarSuper364", "Red", 200, "Category B"));
-            lst.Add(new Bicycle("Bicycle123", "Green", 20, "-"));
-            lst.Add(new Motorcycle("MotorcycleTheBest111", "Yellow", 250, "Category A"));
-            lst.Add(new Scooter("ScooterFast01", "Black", 45, "-"));
+            lst.Add(new Boat("Boat5356", "Blue", 50, "Category 1", 200000));
+            lst.Add(new Car("CarSuper364", "Red", 200, "Category B", 1500000));
+            lst.Add(new Bicycle("Bicycle123", "Green", 20, "-", 5000));
+            lst.Add(new Motorcycle("MotorcycleTheBest111", "Yellow", 250, "Category A", 500000));
+            lst.Add(new Scooter("ScooterFast01", "Black", 45, "-", 150000));
 
             lst.Sort((x, y) => string.Compare(x.Model, y.Model, StringComparison.OrdinalIgnoreCase));
+
+            foreach (var transport in lst)
+            {
+                if (transport is IRentable rentable)
+                {
+                    rentable.RentStateChanged += HandleRentStateChanged;
+                }
+            }
 
             while (true)
             {
@@ -49,16 +57,12 @@ namespace TransportRental
                 }
             }
         }
+        private static void HandleRentStateChanged(object sender, EventArgs e)
+        {
+            if (sender is Transport transport)
+            {
+                Console.WriteLine($"Rent state of {transport.Model} changed. Now rented: {transport.IsRented}");
+            }
+        }
     }
 }
-
-
-
-
-
-
-
-
-
-
-

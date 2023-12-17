@@ -8,8 +8,9 @@ namespace Transport_Rental.Classes
 {
     internal class Scooter : Transport
     {
-        public Scooter(string model, string color, int speed, string category) : base(model, color, speed, 2, category)
+        public Scooter(string model, string color, int speed, string category, decimal price) : base(model, color, speed, 2, category, 2000)
         {
+            Rent();
         }
         public override void Move()
         {

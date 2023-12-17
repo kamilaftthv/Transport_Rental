@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Transport_Rental.Classes
 {
-    abstract class Transport
+    internal abstract class Transport : IRentable
     {
         public abstract void Move();
 
@@ -46,13 +46,20 @@ namespace Transport_Rental.Classes
             get => _isrented;
             set { _isrented = value; }
         }
-        public Transport(string model, string color, int speed, int wheels, string category)
+        private decimal _price;
+        public decimal Price
+        {
+            get => _price;
+            set { _price = value; }
+        }
+        public Transport(string model, string color, int speed, int wheels, string category, decimal price)
         {
             Model = model;
             Color = color;
             Speed = speed;
             Wheels = wheels;
             Category = category;
+            Price = price;
         }
         public virtual void PrintInfo()
         {
@@ -61,6 +68,31 @@ namespace Transport_Rental.Classes
             Console.WriteLine($"Speed: {Speed} км/ч");
             Console.WriteLine($"Number of wheels: {Wheels}");
             Console.WriteLine($"Category: {Category}");
+            Console.WriteLine($"Price: {Price}");
+        }
+        public event RentStateChangedHandler RentStateChanged;
+
+        public void Rent()
+        {
+            if (!IsRented)
+            {
+                IsRented = true;
+                OnRentStateChanged();
+            }
+        }
+
+        public void Return()
+        {
+            if (IsRented)
+            {
+                IsRented = false;
+                OnRentStateChanged();
+            }
+        }
+
+        protected virtual void OnRentStateChanged()
+        {
+            RentStateChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

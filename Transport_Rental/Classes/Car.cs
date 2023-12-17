@@ -8,9 +8,9 @@ namespace Transport_Rental.Classes
 {
     internal class Car : Transport
     {
-        public Car(string model, string color, int speed, string category) : base(model, color, speed, 4, category)
+        public Car(string model, string color, int speed, string category, decimal price) : base(model, color, speed, 4, category, 15000)
         {
-            IsRented = true;
+            Rent();
         }
         public override void Move()
         {
